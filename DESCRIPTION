@@ -1,11 +1,22 @@
 Package: epo
 Type: Package
-Title: What the Package Does (Title Case)
+Title: Enhanced Portfolio Optimization (EPO)
 Version: 0.1.0
-Author: Who wrote it
-Maintainer: The package maintainer <yourself@somewhere.net>
-Description: More about what it does (maybe more than one line)
-    Use four spaces when indenting paragraphs within the Description.
-License: What license is it under?
+Author: Bernardo Reckziegel
+Maintainer: Bernardo Reckziegel <bernardo_cse@hotmail.com>
+Description: Implements the Enhanced Portfolio Optimization (EPO) method as 
+    described in Pedersen, Babu and Levine (2021). 
+    <doi.org/10.1080/0015198X.2020.1854543>.
+License: MIT + file LICENSE
+URL: https://github.com/Reckziegel/epo
+BugReports: https://github.com/Reckziegel/epo/issues
 Encoding: UTF-8
 LazyData: true
+RoxygenNote: 7.2.3
+Imports: 
+    assertthat (>= 0.2.1),
+    rlang (>= 1.1.1)
+Roxygen: list(markdown = TRUE)
+Suggests: 
+    testthat (>= 3.0.0)
+Config/testthat/edition: 3
