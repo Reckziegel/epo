@@ -8,7 +8,7 @@ Description: Implements the Enhanced Portfolio Optimization (EPO) method as
     described in Pedersen, Babu and Levine (2021). 
     <doi.org/10.1080/0015198X.2020.1854543>.
 License: MIT + file LICENSE
-URL: https://github.com/Reckziegel/epo
+URL: https://github.com/Reckziegel/epo, https://reckziegel.github.io/epo/
 BugReports: https://github.com/Reckziegel/epo/issues
 Encoding: UTF-8
 LazyData: true

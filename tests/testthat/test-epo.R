@@ -63,3 +63,23 @@ test_that("Simple and Anchored are equal on the extremes", {
   expect_equal(simple_zero_shrinkage, anchored_zero_shrinkage)
 
 })
+
+test_that("`epo` can handle with signals in which ncol() > 1", {
+
+    expect_equal(anchored_zero_shrinkage,
+                 epo(x = x, signal = t(s), method = "anchored", w = 0, anchor = benchmark))
+
+})
+
+
+test_that("`method only accepts `simple` or `anchored`", {
+
+  expect_error(epo(x = x, signal = s, method = "some_new_type", w = 0))
+
+})
+
+test_that("`anchored` requires and 'anchor'", {
+
+  expect_error(epo(x = x, signal = s, method = "anchored", w = 0))
+
+})
