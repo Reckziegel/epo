@@ -14,7 +14,7 @@ coverage](https://codecov.io/gh/Reckziegel/epo/branch/main/graph/badge.svg)](htt
 <!-- badges: end -->
 
 The Enhanced Portfolio Optimization (EPO) method delivers a unifying
-approach to portfolio optimization. From the perspective of Principal
+theory to portfolio optimization. From the perspective of Principal
 Component Analysis (PCA), *Pedersen, Babu and Levine (2021)* design a
 new approach to identify and correct “problem portfolios”: the least
 important Principal Components, ranked by their variance. Incidentally,
