@@ -15,7 +15,9 @@ LazyData: true
 RoxygenNote: 7.2.3
 Imports: 
     assertthat (>= 0.2.1),
-    rlang (>= 1.1.1)
+    dplyr (>= 1.1.2),
+    rlang (>= 1.1.1),
+    xts (>= 0.13.1)
 Roxygen: list(markdown = TRUE)
 Suggests: 
     testthat (>= 3.0.0)

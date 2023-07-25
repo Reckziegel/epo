@@ -3,7 +3,8 @@
 #' Computes the optimal portfolio allocation using the EPO method with full-investment
 #' constraint.
 #'
-#' @param x A data-set with asset returns.
+#' @param x A data-set with asset returns. It should be a \code{tibble}, an \code{xts}
+#' or a \code{matrix}.
 #' @param signal A \code{double} with the investor's belief's (signals, forecasts).
 #' @param method A \code{character}. One of: `simple` or `anchored`.
 #' @param w A \code{double} between \code{0} and \code{1}. The shrinkage level
@@ -16,7 +17,7 @@
 #'
 #' @examples
 #' x <- diff(log(EuStockMarkets))
-#' s <- colMeans(x) # it could be anything
+#' s <- colMeans(x) # it could be any signal
 #'
 #' ##################
 #' ### Simple EPO ###
@@ -47,6 +48,44 @@
 #' epo(x = x, signal = s, method = "anchored", w = 0.5, anchor = benchmark)
 epo <- function(x, signal, method = c("simple", "anchored"), w, anchor = NULL) {
 
+  UseMethod("epo", x)
+
+}
+
+#' @rdname epo
+#' @export
+epo.default <- function(x, signal, method = c("simple", "anchored"), w, anchor = NULL) {
+
+  rlang::abort("`x` must be a tibble, xts or a matrix.")
+
+}
+
+#' @rdname epo
+#' @export
+epo.tbl <- function(x, signal, method = c("simple", "anchored"), w, anchor = NULL) {
+
+  epo_(x = tbl_to_mtx(x), signal = signal, method = method, w = w, anchor = anchor)
+
+}
+
+#' @rdname epo
+#' @export
+epo.xts <- function(x, signal, method = c("simple", "anchored"), w, anchor = NULL) {
+
+  epo_(x = as.matrix(x), signal = signal, method = method, w = w, anchor = anchor)
+
+}
+
+#' @rdname epo
+#' @export
+epo.matrix <- function(x, signal, method = c("simple", "anchored"), w, anchor = NULL) {
+
+  epo_(x = x, signal = signal, method = method, w = w, anchor = anchor)
+
+}
+
+#' @keywords internal
+epo_ <- function(x, signal, method = c("simple", "anchored"), w, anchor = NULL) {
 
   # Error Handling
   assertthat::assert_that(assertthat::is.string(method))

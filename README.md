@@ -14,7 +14,7 @@ coverage](https://codecov.io/gh/Reckziegel/epo/branch/main/graph/badge.svg)](htt
 <!-- badges: end -->
 
 The Enhanced Portfolio Optimization (EPO) method delivers a unifying
-theory to portfolio optimization. From the perspective of Principal
+theory on portfolio optimization. From the perspective of Principal
 Component Analysis (PCA), *Pedersen, Babu and Levine (2021)* design a
 new approach to identify and correct “problem portfolios”: the least
 important Principal Components, ranked by their variance. Incidentally,
@@ -28,12 +28,12 @@ While shrinkage is not new, *Pedersen, Babu and Levine (2021)* main
 contribution is to show that reducing *ex-ante* correlations towards
 zero is equivalent to increasing the volatilities of the “problem
 portfolios”. That is, the least important components Sharpe-Ratios are
-adjusted downward.
+adjusted downward reducing the instability in MVO.
 
-More surprisingly, the Enhanced Portfolio Optimization method connects
-the MVO, Bayesian Optimization and Robust Optimization under a closed
-form solution that requires the investor to keep track of only a single
-parameter, $w\in [0, 1]$.
+More surprisingly, the Enhanced Portfolio Optimization (EPO) method
+connects the MVO, Bayesian Optimization and Robust Optimization under a
+closed form solution that requires the investor to keep track of just
+one parameter, $w\in [0, 1]$.
 
 When, $w=0$, no shrinkage is found, and the EPO solution is identical to
 the classical MVO. When $w=1$, the correlations are ignored, and the

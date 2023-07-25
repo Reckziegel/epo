@@ -2,12 +2,25 @@
 % Please edit documentation in R/epo.R
 \name{epo}
 \alias{epo}
+\alias{epo.default}
+\alias{epo.tbl}
+\alias{epo.xts}
+\alias{epo.matrix}
 \title{Enhanced Portfolio Optimization (EPO)}
 \usage{
 epo(x, signal, method = c("simple", "anchored"), w, anchor = NULL)
+
+\method{epo}{default}(x, signal, method = c("simple", "anchored"), w, anchor = NULL)
+
+\method{epo}{tbl}(x, signal, method = c("simple", "anchored"), w, anchor = NULL)
+
+\method{epo}{xts}(x, signal, method = c("simple", "anchored"), w, anchor = NULL)
+
+\method{epo}{matrix}(x, signal, method = c("simple", "anchored"), w, anchor = NULL)
 }
 \arguments{
-\item{x}{A data-set with asset returns.}
+\item{x}{A data-set with asset returns. It should be a \code{tibble}, an \code{xts}
+or a \code{matrix}.}
 
 \item{signal}{A \code{double} with the investor's belief's (signals, forecasts).}
 
@@ -28,7 +41,7 @@ constraint.
 }
 \examples{
 x <- diff(log(EuStockMarkets))
-s <- colMeans(x) # it could be anything
+s <- colMeans(x) # it could be any signal
 
 ##################
 ### Simple EPO ###

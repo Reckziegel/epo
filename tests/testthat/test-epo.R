@@ -83,3 +83,35 @@ test_that("`anchored` requires and 'anchor'", {
   expect_error(epo(x = x, signal = s, method = "anchored", w = 0))
 
 })
+
+
+# Methods -----------------------------------------------------------------
+
+# tibble
+x_tbl <- dplyr::as_tibble(x)
+epo_tbl <- epo(x = x_tbl, signal = s, method = "anchored", w = 0.5, anchor = benchmark)
+
+test_that("Anchored EPO works", {
+
+  expect_type(epo_tbl, "double")
+  expect_length(epo_tbl, 4L)
+  expect_equal(sum(epo_tbl), 1L)
+
+})
+
+# xts
+data <- stats::runif(100)
+index <- seq(Sys.Date(), Sys.Date() + 24, "day")
+# data xts
+x_xts <- xts::xts(matrix(data, ncol = 4), order.by = index)
+
+epo_xts <- epo(x = x_xts, signal = s, method = "anchored", w = 0.5, anchor = benchmark)
+
+test_that("Anchored EPO works", {
+
+  expect_type(epo_xts, "double")
+  expect_length(epo_xts, 4L)
+  expect_equal(sum(epo_xts), 1L)
+
+})
+
