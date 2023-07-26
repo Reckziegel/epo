@@ -72,7 +72,7 @@ constraint.</p>
     <div class="section level2">
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
     <dl><dt>x</dt>
-<dd><p>A data-set with asset returns. It should be a <code>tibble</code>, an <code>xts</code>
+<dd><p>A data-set with asset returns. It should be a <code>tibble</code>, a <code>xts</code>
 or a <code>matrix</code>.</p></dd>
 
 
@@ -98,12 +98,12 @@ the allocation should not deviate too much from. Only used when <code>method = "
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
     
 
-<p>A optimal allocation vector.</p>
+<p>The optimal allocation vector.</p>
     </div>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/diff.html" class="external-link">diff</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">log</a></span><span class="op">(</span><span class="va">EuStockMarkets</span><span class="op">)</span><span class="op">)</span></span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/diff.html" class="external-link">diff</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">log</a></span><span class="op">(</span><span class="va">EuStockMarkets</span><span class="op">)</span><span class="op">)</span> <span class="co"># stock returns</span></span></span>
 <span class="r-in"><span><span class="va">s</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/colSums.html" class="external-link">colMeans</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="co"># it could be any signal</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">##################</span></span></span>
