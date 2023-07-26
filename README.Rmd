@@ -21,19 +21,15 @@ knitr::opts_chunk$set(
 
 <!-- badges: end -->
 
-The Enhanced Portfolio Optimization (EPO) method delivers a unifying theory on portfolio optimization. From the perspective of Principal Component Analysis (PCA), *Pedersen, Babu and Levine (2021)* design a new approach to identify and correct "problem portfolios", defined as the least important Principal Components, ranked by their variance.
+The Enhanced Portfolio Optimization (EPO) method presents a groundbreaking approach to portfolio optimization, offering a unifying theory that builds upon Principal Component Analysis (PCA), as proposed by Pedersen, Babu, and Levine (2021). This innovative method effectively addresses the issue of "problem portfolios," referring to Principal Components with the least significance ranked by their variance, which often cause complications in traditional Mean-Variance Optimization (MVO).
 
-Incidentally, these "problem portfolios" are exactly the ones that load heavily in the traditional Mean-Variance Optimization (MVO). To fix this issue, EPO pursues a very simple strategy: it shrinks correlations... and that's it!
+To tackle this problem, EPO introduces a straightforward yet powerful strategy: it shrinks correlations! The key insight from Pedersen, Babu, and Levine (2021) is that by reducing *ex-ante* correlations close to zero, the volatilities of these "problem portfolios" can be effectively increased. Consequently, the method stabilizes MVO by adjusting downward the Sharpe-Ratios of the least important components.
 
-While shrinkage is not new, the main contribution of *Pedersen, Babu and Levine (2021)* is to show that reducing *ex-ante* correlations towards zero is equivalent to increasing the volatilities of the "problem portfolios". That is, the least important components Sharpe-Ratios are adjusted downward reducing the instability in MVO.
+The elegance of the EPO approach lies in its connection to three major optimization methods: MVO, Bayesian Optimization, and Robust Optimization. By incorporating a closed-form solution with a single shrinkage parameter, denoted as $w \in \{0, 1\}$, the investor can seamlessly navigate through the optimization process. When $w=0$, the EPO solution coincides with the classical MVO. Conversely, setting $w=1$ disregards correlations, resulting in a portfolio similar to a non-optimized $1/N$ allocation.
 
-More surprisingly, the EPO method establishes a connection between MVO, Bayesian Optimization, and Robust Optimization through a closed-form solution that requires the investor to keep track of just one parameter, $w\in [0, 1]$.
+In real-world applications, it is crucial to consider the potential deviation from a reference point or benchmark. EPO effectively handles this concern through the "Anchored EPO" approach. When $w=0$, it aligns with the classical MVO, while a $w=1$ precisely matches the benchmark. The most intriguing outcomes arise when $0 < w < 1$, leading to portfolios resembling the Black-Litterman model. Here, the shrinking parameter, $w$, tunes the confidence in the *prior*, offering a flexible and dynamic optimization process. It is important to note that unlike Black-Litterman, the "Anchored EPO" does not restrict the reference point to the "Market Portfolio," making it more general and widely applicable.
 
-When, $w=0$, no shrinkage is applied and the EPO solution is identical to the classical MVO. When $w=1$, the correlations are ignored, and the final result resembles $1/N$ like portfolios that do not optimize.
-
-In real world applications, however, there is always a risk that the final portfolio will end up being too far from a reference point (benchmark). As no surprise, EPO can deal with these cases too: this is called the "Anchored EPO".
-
-In the "Anchored EPO", a $w=0$ yields the classical MVO and a $w=1$ matches the benchmark exactly. The interesting case happens when $0 < w < 1$, where the output resembles the Black-Litterman model and the confidence in the *prior* is tuned (again) by the shrinking parameter, $w$. However, unlike Black-Litterman, in the "Anchored EPO", the reference point is more general and does not necessarily means the "Market Portfolio".
+Overall, the Enhanced Portfolio Optimization (EPO) method presents a novel, efficient, and adaptable framework for portfolio optimization. Its ability to address the limitations of traditional methods while incorporating various optimization approaches through a single preference parameter makes it a powerful tool for investors seeking more stable and well-tailored portfolios.
 
 ## Installation
 
@@ -55,8 +51,8 @@ devtools::install_github("Reckziegel/epo")
 ```{r}
 library(epo)
 
-x <- diff(log(EuStockMarkets))
-s <- colMeans(x) # it could be any signal (I use the mean for simplicity)
+x <- diff(log(EuStockMarkets)) # stock returns
+s <- colMeans(x) # it could be any signal 
 
 ##################
 ### The Simple EPO

@@ -19,7 +19,7 @@ epo(x, signal, method = c("simple", "anchored"), w, anchor = NULL)
 \method{epo}{matrix}(x, signal, method = c("simple", "anchored"), w, anchor = NULL)
 }
 \arguments{
-\item{x}{A data-set with asset returns. It should be a \code{tibble}, an \code{xts}
+\item{x}{A data-set with asset returns. It should be a \code{tibble}, a \code{xts}
 or a \code{matrix}.}
 
 \item{signal}{A \code{double} with the investor's belief's (signals, forecasts).}
@@ -33,14 +33,14 @@ increases from 0 to 1.}
 the allocation should not deviate too much from. Only used when \code{method = "anchored"}.}
 }
 \value{
-A optimal allocation vector.
+The optimal allocation vector.
 }
 \description{
 Computes the optimal portfolio allocation using the EPO method with full-investment
 constraint.
 }
 \examples{
-x <- diff(log(EuStockMarkets))
+x <- diff(log(EuStockMarkets)) # stock returns
 s <- colMeans(x) # it could be any signal
 
 ##################

@@ -3,7 +3,7 @@
 #' Computes the optimal portfolio allocation using the EPO method with full-investment
 #' constraint.
 #'
-#' @param x A data-set with asset returns. It should be a \code{tibble}, an \code{xts}
+#' @param x A data-set with asset returns. It should be a \code{tibble}, a \code{xts}
 #' or a \code{matrix}.
 #' @param signal A \code{double} with the investor's belief's (signals, forecasts).
 #' @param method A \code{character}. One of: `simple` or `anchored`.
@@ -12,11 +12,11 @@
 #' @param anchor A \code{double} with the investor anchor (benchmark), in which
 #' the allocation should not deviate too much from. Only used when `method = "anchored"`.
 #'
-#' @return A optimal allocation vector.
+#' @return The optimal allocation vector.
 #' @export
 #'
 #' @examples
-#' x <- diff(log(EuStockMarkets))
+#' x <- diff(log(EuStockMarkets)) # stock returns
 #' s <- colMeans(x) # it could be any signal
 #'
 #' ##################
