@@ -8,36 +8,89 @@
 \alias{epo.matrix}
 \title{Enhanced Portfolio Optimization (EPO)}
 \usage{
-epo(x, signal, method = c("simple", "anchored"), w, anchor = NULL)
+epo(
+  x,
+  signal,
+  lambda,
+  method = c("simple", "anchored"),
+  w,
+  anchor = NULL,
+  normalize = TRUE,
+  endogenous = TRUE
+)
 
-\method{epo}{default}(x, signal, method = c("simple", "anchored"), w, anchor = NULL)
+\method{epo}{default}(
+  x,
+  signal,
+  lambda,
+  method = c("simple", "anchored"),
+  w,
+  anchor = NULL,
+  normalize = TRUE,
+  endogenous = TRUE
+)
 
-\method{epo}{tbl}(x, signal, method = c("simple", "anchored"), w, anchor = NULL)
+\method{epo}{tbl}(
+  x,
+  signal,
+  lambda,
+  method = c("simple", "anchored"),
+  w,
+  anchor = NULL,
+  normalize = TRUE,
+  endogenous = TRUE
+)
 
-\method{epo}{xts}(x, signal, method = c("simple", "anchored"), w, anchor = NULL)
+\method{epo}{xts}(
+  x,
+  signal,
+  lambda,
+  method = c("simple", "anchored"),
+  w,
+  anchor = NULL,
+  normalize = TRUE,
+  endogenous = TRUE
+)
 
-\method{epo}{matrix}(x, signal, method = c("simple", "anchored"), w, anchor = NULL)
+\method{epo}{matrix}(
+  x,
+  signal,
+  lambda,
+  method = c("simple", "anchored"),
+  w,
+  anchor = NULL,
+  normalize = TRUE,
+  endogenous = TRUE
+)
 }
 \arguments{
 \item{x}{A data-set with asset returns. It should be a \code{tibble}, a \code{xts}
 or a \code{matrix}.}
 
-\item{signal}{A \code{double} with the investor's belief's (signals, forecasts).}
+\item{signal}{A \code{double} vector with the investor's belief's (signals, forecasts).}
 
-\item{method}{A \code{character}. One of: \code{simple} or \code{anchored}.}
+\item{lambda}{A \code{double} with the investor's risk-aversion preference.}
+
+\item{method}{A \code{character}. One of: \code{"simple"} or \code{"anchored"}.}
 
 \item{w}{A \code{double} between \code{0} and \code{1}. The shrinkage level
 increases from 0 to 1.}
 
-\item{anchor}{A \code{double} with the investor anchor (benchmark), in which
+\item{anchor}{A \code{double} vector with the anchor (benchmark) in which
 the allocation should not deviate too much from. Only used when \code{method = "anchored"}.}
+
+\item{normalize}{A \code{boolean} indicating whether the allocation should be
+normalized to sum \code{1} (full-investment constraint). The default is \code{normalize = TRUE}.}
+
+\item{endogenous}{A \code{boolean} indicating whether the risk-aversion parameter
+should be considered endogenous (only used when \code{method = "anchored"}).
+The default is \code{endogenous = TRUE}.}
 }
 \value{
 The optimal allocation vector.
 }
 \description{
-Computes the optimal portfolio allocation using the EPO method with full-investment
-constraint.
+Computes the optimal portfolio allocation using the EPO method.
 }
 \examples{
 x <- diff(log(EuStockMarkets)) # stock returns
@@ -48,13 +101,13 @@ s <- colMeans(x) # it could be any signal
 ##################
 
 # Traditional Mean-Variance Analysis
-epo(x = x, signal = s, method = "simple", w = 0)
+epo(x = x, signal = s, lambda = 10, method = "simple", w = 0)
 
 # 100\% Shrinkage
-epo(x = x, signal = s, method = "simple", w = 1)
+epo(x = x, signal = s, lambda = 10, method = "simple", w = 1)
 
 # 50\% Classical MVO and 50\% Shrinkage
-epo(x = x, signal = s, method = "simple", w = 0.5)
+epo(x = x, signal = s, lambda = 10, method = "simple", w = 0.5)
 
 ####################
 ### Anchored EPO ###
@@ -63,11 +116,11 @@ epo(x = x, signal = s, method = "simple", w = 0.5)
 benchmark <- rep(0.25, 4) # 1/N Portfolio
 
 # Traditional Mean-Variance Analysis
-epo(x = x, signal = s, method = "anchored", w = 0.0, anchor = benchmark)
+epo(x = x, signal = s, lambda = 10, method = "anchored", w = 0.0, anchor = benchmark)
 
 # 100\% on the Anchor portfolio
-epo(x = x, signal = s, method = "anchored", w = 1.0, anchor = benchmark)
+epo(x = x, signal = s, lambda = 10, method = "anchored", w = 1.0, anchor = benchmark)
 
 # Somewhere between the two worlds
-epo(x = x, signal = s, method = "anchored", w = 0.5, anchor = benchmark)
+epo(x = x, signal = s, lambda = 10, method = "anchored", w = 0.5, anchor = benchmark)
 }

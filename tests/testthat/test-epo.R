@@ -4,11 +4,11 @@ colnames(x) <- colnames(EuStockMarkets)
 s <- colMeans(x)
 
 # Traditional Mean-Variance Analysis
-simple_zero_shrinkage <- epo(x = x, signal = s, method = "simple", w = 0)
+simple_zero_shrinkage <- epo(x = x, signal = s, lambda = 1, method = "simple", w = 0)
 # 100% Shrinkage
-simple_full_shrinkage <- epo(x = x, signal = s, method = "simple", w = 1)
+simple_full_shrinkage <- epo(x = x, signal = s, lambda = 1, method = "simple", w = 1)
 # 50% Classical MVO and 50% Shrinkage
-simple_half_way <- epo(x = x, signal = s, method = "simple", w = 0.5)
+simple_half_way <- epo(x = x, signal = s, lambda = 1, method = "simple", w = 0.5)
 
 test_that("Simple EPO works", {
 
@@ -30,11 +30,11 @@ test_that("Simple EPO works", {
 benchmark <- rep(0.25, 4) # 1/N Portfolio
 
 # Traditional Mean-Variance Analysis
-anchored_zero_shrinkage <- epo(x = x, signal = s, method = "anchored", w = 0.0, anchor = benchmark)
+anchored_zero_shrinkage <- epo(x = x, signal = s, lambda = 1, method = "anchored", w = 0.0, anchor = benchmark)
 # 100% on the Anchor portfolio
-anchored_full_shrinkage <- epo(x = x, signal = s, method = "anchored", w = 1.0, anchor = benchmark)
+anchored_full_shrinkage <- epo(x = x, signal = s, lambda = 1, method = "anchored", w = 1.0, anchor = benchmark)
 # Somewhere between the two worlds
-anchored_half_way <- epo(x = x, signal = s, method = "anchored", w = 0.5, anchor = benchmark)
+anchored_half_way <- epo(x = x, signal = s, lambda = 1, method = "anchored", w = 0.5, anchor = benchmark)
 
 
 test_that("Anchored EPO works", {
@@ -67,20 +67,20 @@ test_that("Simple and Anchored are equal on the extremes", {
 test_that("`epo` can handle with signals in which ncol() > 1", {
 
     expect_equal(anchored_zero_shrinkage,
-                 epo(x = x, signal = t(s), method = "anchored", w = 0, anchor = benchmark))
+                 epo(x = x, signal = t(s), lambda = 1, method = "anchored", w = 0, anchor = benchmark))
 
 })
 
 
 test_that("`method only accepts `simple` or `anchored`", {
 
-  expect_error(epo(x = x, signal = s, method = "some_new_type", w = 0))
+  expect_error(epo(x = x, signal = s, lambda = 1, method = "some_new_type", w = 0))
 
 })
 
 test_that("`anchored` requires and 'anchor'", {
 
-  expect_error(epo(x = x, signal = s, method = "anchored", w = 0))
+  expect_error(epo(x = x, signal = s, lambda = 1, method = "anchored", w = 0))
 
 })
 
@@ -89,7 +89,7 @@ test_that("`anchored` requires and 'anchor'", {
 
 # tibble
 x_tbl <- dplyr::as_tibble(x)
-epo_tbl <- epo(x = x_tbl, signal = s, method = "anchored", w = 0.5, anchor = benchmark)
+epo_tbl <- epo(x = x_tbl, signal = s, lambda = 1, method = "anchored", w = 0.5, anchor = benchmark)
 
 test_that("Anchored EPO works", {
 
@@ -105,7 +105,7 @@ index <- seq(Sys.Date(), Sys.Date() + 24, "day")
 # data xts
 x_xts <- xts::xts(matrix(data, ncol = 4), order.by = index)
 
-epo_xts <- epo(x = x_xts, signal = s, method = "anchored", w = 0.5, anchor = benchmark)
+epo_xts <- epo(x = x_xts, signal = s, lambda = 1, method = "anchored", w = 0.5, anchor = benchmark)
 
 test_that("Anchored EPO works", {
 

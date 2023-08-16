@@ -10,7 +10,8 @@ experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](h
 [![R-CMD-check](https://github.com/Reckziegel/epo/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/Reckziegel/epo/actions/workflows/R-CMD-check.yaml)
 [![Codecov test
 coverage](https://codecov.io/gh/Reckziegel/epo/branch/main/graph/badge.svg)](https://app.codecov.io/gh/Reckziegel/epo?branch=main)
-
+[![CRAN
+status](https://www.r-pkg.org/badges/version/epo)](https://CRAN.R-project.org/package=epo)
 <!-- badges: end -->
 
 The Enhanced Portfolio Optimization (EPO) method, described in Pedersen,
@@ -87,15 +88,15 @@ s <- colMeans(x) # it could be any signal
 ##################
 
 # Traditional Mean-Variance Analysis
-epo(x = x, signal = s, method = "simple", w = 0)
+epo(x = x, signal = s, lambda = 10, method = "simple", w = 0)
 #> [1]  0.1914569  0.9894828 -0.3681779  0.1872382
 
 # 100% Shrinkage
-epo(x = x, signal = s, method = "simple", w = 1)
+epo(x = x, signal = s, lambda = 10, method = "simple", w = 1)
 #> [1] 0.2352863 0.3659986 0.1375249 0.2611902
 
 # 50% Classical MVO and 50% Shrinkage
-epo(x = x, signal = s, method = "simple", w = 0.5)
+epo(x = x, signal = s, lambda = 10, method = "simple", w = 0.5)
 #> [1]  0.223281853  0.564005906 -0.009868083  0.222580324
 
 ####################
@@ -105,15 +106,15 @@ epo(x = x, signal = s, method = "simple", w = 0.5)
 benchmark <- rep(0.25, 4) # 1/N Portfolio
 
 # Traditional Mean-Variance Analysis
-epo(x = x, signal = s, method = "anchored", w = 0.0, anchor = benchmark)
+epo(x = x, signal = s, lambda = 10, method = "anchored", w = 0.0, anchor = benchmark)
 #> [1]  0.1914569  0.9894828 -0.3681779  0.1872382
 
 # 100% on the Anchor portfolio
-epo(x = x, signal = s, method = "anchored", w = 1.0, anchor = benchmark)
+epo(x = x, signal = s, lambda = 10, method = "anchored", w = 1.0, anchor = benchmark)
 #> [1] 0.25 0.25 0.25 0.25
 
 # 50% on Mean-Variance Analysis and 50% on the Anchor Portfolio
-epo(x = x, signal = s, method = "anchored", w = 0.5, anchor = benchmark)
+epo(x = x, signal = s, lambda = 10, method = "anchored", w = 0.5, anchor = benchmark)
 #> [1] 0.2374674 0.4557503 0.1004711 0.2063111
 ```
 
