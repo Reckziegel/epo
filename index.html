@@ -69,7 +69,6 @@
 </h1></div>
 <!-- badges: start -->
 
-<!-- badges: end -->
 <p>The Enhanced Portfolio Optimization (EPO) method, described in Pedersen, Babu and Levine (2021), proposes a unifying theory on portfolio optimization. Employing Principal Component Analysis (PCA), the EPO method ranks portfolios based on their variance, from the most to the least important principal components. Notably, the least important principal components emerge as “problem portfolios”, primarily due to their low <em>estimated</em> risk, leading to the underestimation of their <em>true</em> risks. These portfolios offer high expected returns (<em>ex-ante</em>) and low realized Sharpe Ratios (<em>ex-post</em>), underscoring the challenges faced when using them through standard approaches.</p>
 <p>To fix this issue, EPO introduces a straightforward yet powerful strategy: it shrinks correlations! The key insight from Pedersen, Babu, and Levine (2021) is that by reducing correlations close to zero, the volatilities of these “problem portfolios” are effectively increased. Consequently, the EPO method stabilizes Mean-Variance Optimization (MVO) by adjusting downward the Sharpe-Ratios of the least important components.</p>
 <p>The elegance of the EPO approach lies in its connection to three leading methods: MVO, Bayesian Optimization, and Robust Optimization. By incorporating a closed-form solution with a single shrinkage parameter, denoted as <span class="math inline"><em>w</em> ∈ {0, 1}</span>, the investor can seamlessly navigate through the optimization process. In the “Simple EPO”, a <span class="math inline"><em>w</em> = 0</span> coincides with the classical MVO. Conversely, a <span class="math inline"><em>w</em> = 1</span> completely disregards correlations, resulting in a portfolio allocation that do not optimize.</p>
@@ -100,15 +99,15 @@
 <span><span class="co">##################</span></span>
 <span></span>
 <span><span class="co"># Traditional Mean-Variance Analysis</span></span>
-<span><span class="fu"><a href="reference/epo.html">epo</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">x</span>, signal <span class="op">=</span> <span class="va">s</span>, method <span class="op">=</span> <span class="st">"simple"</span>, w <span class="op">=</span> <span class="fl">0</span><span class="op">)</span></span>
+<span><span class="fu"><a href="reference/epo.html">epo</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">x</span>, signal <span class="op">=</span> <span class="va">s</span>, lambda <span class="op">=</span> <span class="fl">10</span>, method <span class="op">=</span> <span class="st">"simple"</span>, w <span class="op">=</span> <span class="fl">0</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1]  0.1914569  0.9894828 -0.3681779  0.1872382</span></span>
 <span></span>
 <span><span class="co"># 100% Shrinkage</span></span>
-<span><span class="fu"><a href="reference/epo.html">epo</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">x</span>, signal <span class="op">=</span> <span class="va">s</span>, method <span class="op">=</span> <span class="st">"simple"</span>, w <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span>
+<span><span class="fu"><a href="reference/epo.html">epo</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">x</span>, signal <span class="op">=</span> <span class="va">s</span>, lambda <span class="op">=</span> <span class="fl">10</span>, method <span class="op">=</span> <span class="st">"simple"</span>, w <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] 0.2352863 0.3659986 0.1375249 0.2611902</span></span>
 <span></span>
 <span><span class="co"># 50% Classical MVO and 50% Shrinkage</span></span>
-<span><span class="fu"><a href="reference/epo.html">epo</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">x</span>, signal <span class="op">=</span> <span class="va">s</span>, method <span class="op">=</span> <span class="st">"simple"</span>, w <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span></span>
+<span><span class="fu"><a href="reference/epo.html">epo</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">x</span>, signal <span class="op">=</span> <span class="va">s</span>, lambda <span class="op">=</span> <span class="fl">10</span>, method <span class="op">=</span> <span class="st">"simple"</span>, w <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1]  0.223281853  0.564005906 -0.009868083  0.222580324</span></span>
 <span></span>
 <span><span class="co">####################</span></span>
@@ -118,15 +117,15 @@
 <span><span class="va">benchmark</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">0.25</span>, <span class="fl">4</span><span class="op">)</span> <span class="co"># 1/N Portfolio</span></span>
 <span></span>
 <span><span class="co"># Traditional Mean-Variance Analysis</span></span>
-<span><span class="fu"><a href="reference/epo.html">epo</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">x</span>, signal <span class="op">=</span> <span class="va">s</span>, method <span class="op">=</span> <span class="st">"anchored"</span>, w <span class="op">=</span> <span class="fl">0.0</span>, anchor <span class="op">=</span> <span class="va">benchmark</span><span class="op">)</span></span>
+<span><span class="fu"><a href="reference/epo.html">epo</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">x</span>, signal <span class="op">=</span> <span class="va">s</span>, lambda <span class="op">=</span> <span class="fl">10</span>, method <span class="op">=</span> <span class="st">"anchored"</span>, w <span class="op">=</span> <span class="fl">0.0</span>, anchor <span class="op">=</span> <span class="va">benchmark</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1]  0.1914569  0.9894828 -0.3681779  0.1872382</span></span>
 <span></span>
 <span><span class="co"># 100% on the Anchor portfolio</span></span>
-<span><span class="fu"><a href="reference/epo.html">epo</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">x</span>, signal <span class="op">=</span> <span class="va">s</span>, method <span class="op">=</span> <span class="st">"anchored"</span>, w <span class="op">=</span> <span class="fl">1.0</span>, anchor <span class="op">=</span> <span class="va">benchmark</span><span class="op">)</span></span>
+<span><span class="fu"><a href="reference/epo.html">epo</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">x</span>, signal <span class="op">=</span> <span class="va">s</span>, lambda <span class="op">=</span> <span class="fl">10</span>, method <span class="op">=</span> <span class="st">"anchored"</span>, w <span class="op">=</span> <span class="fl">1.0</span>, anchor <span class="op">=</span> <span class="va">benchmark</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] 0.25 0.25 0.25 0.25</span></span>
 <span></span>
 <span><span class="co"># 50% on Mean-Variance Analysis and 50% on the Anchor Portfolio</span></span>
-<span><span class="fu"><a href="reference/epo.html">epo</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">x</span>, signal <span class="op">=</span> <span class="va">s</span>, method <span class="op">=</span> <span class="st">"anchored"</span>, w <span class="op">=</span> <span class="fl">0.5</span>, anchor <span class="op">=</span> <span class="va">benchmark</span><span class="op">)</span></span>
+<span><span class="fu"><a href="reference/epo.html">epo</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">x</span>, signal <span class="op">=</span> <span class="va">s</span>, lambda <span class="op">=</span> <span class="fl">10</span>, method <span class="op">=</span> <span class="st">"anchored"</span>, w <span class="op">=</span> <span class="fl">0.5</span>, anchor <span class="op">=</span> <span class="va">benchmark</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] 0.2374674 0.4557503 0.1004711 0.2063111</span></span></code></pre></div>
 </div>
 <div class="section level2">
@@ -175,6 +174,7 @@
 <li><a href="https://lifecycle.r-lib.org/articles/stages.html#experimental" class="external-link"><img src="https://img.shields.io/badge/lifecycle-experimental-orange.svg" alt="Lifecycle: experimental"></a></li>
 <li><a href="https://github.com/Reckziegel/epo/actions/workflows/R-CMD-check.yaml" class="external-link"><img src="https://github.com/Reckziegel/epo/actions/workflows/R-CMD-check.yaml/badge.svg" alt="R-CMD-check"></a></li>
 <li><a href="https://app.codecov.io/gh/Reckziegel/epo?branch=main" class="external-link"><img src="https://codecov.io/gh/Reckziegel/epo/branch/main/graph/badge.svg" alt="Codecov test coverage"></a></li>
+<li><a href="https://CRAN.R-project.org/package=epo" class="external-link"><img src="https://www.r-pkg.org/badges/version/epo" alt="CRAN status"></a></li>
 </ul>
 </div>
 
