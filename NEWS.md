@@ -1,3 +1,5 @@
 # epo (development version)
 
-* Added a `NEWS.md` file to track changes to the package.
+# epo 0.1.0
+
+-   First CRAN release.
