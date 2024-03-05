@@ -12,6 +12,11 @@ experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](h
 coverage](https://codecov.io/gh/Reckziegel/epo/branch/main/graph/badge.svg)](https://app.codecov.io/gh/Reckziegel/epo?branch=main)
 [![CRAN
 status](https://www.r-pkg.org/badges/version/epo)](https://CRAN.R-project.org/package=epo)
+[![CRAN RStudio mirror
+downloads](https://cranlogs.r-pkg.org/badges/grand-total/epo?color=blue)](https://r-pkg.org/pkg/epo)
+[![CRAN RStudio mirror
+downloads](https://cranlogs.r-pkg.org/badges/last-month/epo?color=blue)](https://r-pkg.org/pkg/epo)
+
 <!-- badges: end -->
 
 The Enhanced Portfolio Optimization (EPO) method, described in Pedersen,

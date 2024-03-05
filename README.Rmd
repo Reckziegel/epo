@@ -17,8 +17,10 @@ knitr::opts_chunk$set(
 
 <!-- badges: start -->
 
-[![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental) [![R-CMD-check](https://github.com/Reckziegel/epo/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/Reckziegel/epo/actions/workflows/R-CMD-check.yaml) [![Codecov test coverage](https://codecov.io/gh/Reckziegel/epo/branch/main/graph/badge.svg)](https://app.codecov.io/gh/Reckziegel/epo?branch=main)
-[![CRAN status](https://www.r-pkg.org/badges/version/epo)](https://CRAN.R-project.org/package=epo)
+[![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental) [![R-CMD-check](https://github.com/Reckziegel/epo/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/Reckziegel/epo/actions/workflows/R-CMD-check.yaml) [![Codecov test coverage](https://codecov.io/gh/Reckziegel/epo/branch/main/graph/badge.svg)](https://app.codecov.io/gh/Reckziegel/epo?branch=main) [![CRAN status](https://www.r-pkg.org/badges/version/epo)](https://CRAN.R-project.org/package=epo)
+[![CRAN RStudio mirror downloads](https://cranlogs.r-pkg.org/badges/grand-total/epo?color=blue)](https://r-pkg.org/pkg/epo)
+[![CRAN RStudio mirror downloads](https://cranlogs.r-pkg.org/badges/last-month/epo?color=blue)](https://r-pkg.org/pkg/epo)
+
 <!-- badges: end -->
 
 The Enhanced Portfolio Optimization (EPO) method, described in Pedersen, Babu and Levine (2021), proposes a unifying theory on portfolio optimization. Employing Principal Component Analysis (PCA), the EPO method ranks portfolios based on their variance, from the most to the least important principal components. Notably, the least important principal components emerge as "problem portfolios", primarily due to their low *estimated* risk, leading to the underestimation of their *true* risks. These portfolios offer high expected returns (*ex-ante*) and low realized Sharpe Ratios (*ex-post*), underscoring the challenges faced when using them through standard approaches.
