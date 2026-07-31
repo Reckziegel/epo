@@ -1,0 +1,150 @@
+# epo
+
+The Enhanced Portfolio Optimization (EPO) method, described in Pedersen,
+Babu, and Levine (2021), addresses a long-standing puzzle in
+quantitative finance: standard mean-variance optimization (MVO) has the
+highest possible Sharpe ratio *in theory*, yet it performs so poorly
+out-of-sample that many investors abandon optimization altogether in
+favor of naive rules such as the 1/N portfolio.
+
+Pedersen, Babu, and Levine trace this failure to a specific set of
+**“problem portfolios.”** Decomposing the correlation matrix into
+principal components (long-short portfolios that are uncorrelated with
+each other and ranked by variance), they show that the *least* important
+components are the ones that wreck MVO: because these portfolios have
+the lowest ex-ante risk, estimation error tends to *underestimate* their
+true volatility, while any noise in expected-return estimates is large
+relative to that low risk. The optimizer sees these noise-driven
+portfolios as offering deceptively high Sharpe ratios and consequently
+takes large, highly-leveraged bets on them — bets that perform poorly
+out-of-sample.
+
+The fix proposed by the paper, the **“Simple EPO”**, is a small change
+with an outsized effect: shrink the off-diagonal correlations toward
+zero before optimizing. Correlation shrinkage raises the estimated
+volatility of exactly the problem portfolios (the unimportant principal
+components), which in turn shrinks their inflated Sharpe ratios back
+toward the levels actually observed out-of-sample. This single
+adjustment stabilizes MVO and, empirically, produces large improvements
+in realized Sharpe ratio and statistically significant alpha relative to
+the market, 1/N, and standard factor benchmarks.
+
+One shrinkage parameter, \\w \in \[0, 1\]\\, controls the whole
+procedure:
+
+- \\w = 0\\ recovers standard MVO (no shrinkage).
+- \\w = 1\\ sets all correlations to zero, which is (up to scaling)
+  equivalent to not optimizing at all.
+- Any \\w \in (0, 1)\\ interpolates between the two, and the paper finds
+  that fairly large shrinkage (around 75% in its empirical applications)
+  tends to work well — because correlation shrinkage corrects for noise
+  in *both* the risk model and the expected-return estimates, not just
+  the former. In practice \\w\\ is chosen empirically (e.g.,
+  out-of-sample, by picking the value that would have maximized realized
+  Sharpe ratio using only past data).
+
+The package also implements the **“Anchored EPO”**, which lets the
+investor keep the optimized portfolio close to a reference or benchmark
+portfolio (“anchor”) — for example a strategic asset allocation, a
+benchmark index, or the 1/N portfolio. Here \\w = 0\\ again yields
+standard MVO, \\w = 1\\ collapses the solution onto the anchor, and
+intermediate values produce Black-Litterman-style portfolios in which
+\\w\\ plays the role of the investor’s confidence in the anchor relative
+to the signal. Unlike Black-Litterman, however, the anchor need not be
+the market portfolio, which makes the Anchored EPO considerably more
+general.
+
+Beyond its empirical performance, one of the paper’s central
+contributions is theoretical: it shows that the same EPO solution nests
+standard MVO, reverse-MVO, the Black-Litterman model, robust
+optimization under an ellipsoidal uncertainty set on expected returns,
+and ridge-regression-style regularization as special cases — unifying
+several strands of the portfolio-optimization literature under a single,
+transparent shrinkage parameter.
+
+## Installation
+
+Install the official version from CRAN with:
+
+``` r
+
+install.packages("epo")
+```
+
+Install the development version from github with:
+
+``` r
+
+# install.packages("devtools")
+devtools::install_github("Reckziegel/epo")
+```
+
+## Example
+
+``` r
+
+library(epo)
+
+x <- diff(log(EuStockMarkets)) # stock returns
+s <- colMeans(x) # it could be any signal 
+
+##################
+### The Simple EPO
+##################
+
+# Traditional Mean-Variance Analysis
+epo(x = x, signal = s, lambda = 10, method = "simple", w = 0)
+#> [1]  0.1914569  0.9894828 -0.3681779  0.1872382
+
+# 100% Shrinkage
+epo(x = x, signal = s, lambda = 10, method = "simple", w = 1)
+#> [1] 0.2352863 0.3659986 0.1375249 0.2611902
+
+# 50% Classical MVO and 50% Shrinkage
+epo(x = x, signal = s, lambda = 10, method = "simple", w = 0.5)
+#> [1]  0.223281853  0.564005906 -0.009868083  0.222580324
+
+####################
+### The Anchored EPO 
+####################
+
+benchmark <- rep(0.25, 4) # 1/N Portfolio
+
+# Traditional Mean-Variance Analysis
+epo(x = x, signal = s, lambda = 10, method = "anchored", w = 0.0, anchor = benchmark)
+#> [1]  0.1914569  0.9894828 -0.3681779  0.1872382
+
+# 100% on the Anchor portfolio
+epo(x = x, signal = s, lambda = 10, method = "anchored", w = 1.0, anchor = benchmark)
+#> [1] 0.25 0.25 0.25 0.25
+
+# 50% on Mean-Variance Analysis and 50% on the Anchor Portfolio
+epo(x = x, signal = s, lambda = 10, method = "anchored", w = 0.5, anchor = benchmark)
+#> [1] 0.2374674 0.4557503 0.1004711 0.2063111
+```
+
+## Learning More
+
+- [`?epo`](https://reckziegel.github.io/epo/reference/epo.md) documents
+  the arguments and gives runnable examples for both the Simple and the
+  Anchored EPO.git config –global commit.gpgsign false
+- Section II of the paper (Pedersen, Babu, and Levine, 2021) works
+  through the closed-form solutions implemented here (equations 16 and
+  17), and Section III applies them to time-series and industry
+  momentum.
+
+## References
+
+- Pedersen, Lasse Heje, Abhilash Babu, and Ari Levine (2021), Enhanced
+  Portfolio Optimization, *Financial Analysts Journal*, 77(2), 124-151,
+  DOI:
+  [10.1080/0015198X.2020.1854543](https://doi.org/10.1080/0015198X.2020.1854543).
+  Available at SSRN: <https://ssrn.com/abstract=3530390>.
+
+# Package index
+
+## All functions
+
+- [`epo()`](https://reckziegel.github.io/epo/reference/epo.md) :
+  Enhanced Portfolio Optimization (EPO)
+
