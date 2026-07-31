@@ -1,0 +1,39 @@
+# Linting workflow using lintr
+# Checks code style and potential issues
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+    branches: [main, master]
+
+name: lint
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    env:
+      GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: r-lib/actions/setup-r@v2
+        with:
+          use-public-rspm: true
+
+      - uses: r-lib/actions/setup-r-dependencies@v2
+        with:
+          extra-packages: any::lintr
+          needs: lint
+
+      - name: Lint
+        run: |
+          lintr::lint_package(
+            linters = lintr::linters_with_defaults(
+              line_length_linter = lintr::line_length_linter(120L)
+            ),
+            exclusions = list(
+              "tests/" = c("todo_1"),
+              "man/" = c("all")
+            )
+          )
+        shell: Rscript {0}

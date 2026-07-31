@@ -1,0 +1,30 @@
+# Spell check workflow using spelling package
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+    branches: [main, master]
+
+name: Spell Check
+
+jobs:
+  spell-check:
+    runs-on: ubuntu-latest
+    env:
+      GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+    
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: r-lib/actions/setup-r@v2
+        with:
+          use-public-rspm: true
+
+      - uses: r-lib/actions/setup-r-dependencies@v2
+        with:
+          extra-packages: any::spelling
+          needs: spelling
+
+      - name: Spell check
+        run: spelling::spell_check_package()
+        shell: Rscript {0}
