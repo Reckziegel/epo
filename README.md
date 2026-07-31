@@ -8,6 +8,8 @@
 [![Lifecycle:
 experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
 [![R-CMD-check](https://github.com/Reckziegel/epo/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/Reckziegel/epo/actions/workflows/R-CMD-check.yaml)
+[![lint](https://github.com/Reckziegel/epo/actions/workflows/lint.yaml/badge.svg)](https://github.com/Reckziegel/epo/actions/workflows/lint.yaml)
+[![spell-check](https://github.com/Reckziegel/epo/actions/workflows/spell-check.yaml/badge.svg)](https://github.com/Reckziegel/epo/actions/workflows/spell-check.yaml)
 [![Codecov test
 coverage](https://codecov.io/gh/Reckziegel/epo/branch/main/graph/badge.svg)](https://app.codecov.io/gh/Reckziegel/epo?branch=main)
 [![CRAN
@@ -141,8 +143,7 @@ epo(x = x, signal = s, lambda = 10, method = "anchored", w = 0.5, anchor = bench
 ## Learning More
 
 - `?epo` documents the arguments and gives runnable examples for both
-  the Simple and the Anchored EPO.git config –global commit.gpgsign
-  false
+  the Simple and the Anchored EPO.
 - Section II of the paper (Pedersen, Babu, and Levine, 2021) works
   through the closed-form solutions implemented here (equations 16 and
   17), and Section III applies them to time-series and industry
