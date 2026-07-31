@@ -2,7 +2,7 @@ pandoc: 3.8.3
 pkgdown: 2.2.1
 pkgdown_sha: ~
 articles: {}
-last_built: 2026-07-31T15:54Z
+last_built: 2026-07-31T16:15Z
 urls:
   reference: https://reckziegel.github.io/epo/reference
   article: https://reckziegel.github.io/epo/articles

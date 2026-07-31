@@ -127,7 +127,7 @@ epo(x = x, signal = s, lambda = 10, method = "anchored", w = 0.5, anchor = bench
 
 - [`?epo`](https://reckziegel.github.io/epo/reference/epo.md) documents
   the arguments and gives runnable examples for both the Simple and the
-  Anchored EPO.git config –global commit.gpgsign false
+  Anchored EPO.
 - Section II of the paper (Pedersen, Babu, and Levine, 2021) works
   through the closed-form solutions implemented here (equations 16 and
   17), and Section III applies them to time-series and industry
