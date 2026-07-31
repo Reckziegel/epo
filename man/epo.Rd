@@ -67,30 +67,75 @@ epo(
 \item{x}{A data-set with asset returns. It should be a \code{tibble}, a \code{xts}
 or a \code{matrix}.}
 
-\item{signal}{A \code{double} vector with the investor's belief's (signals, forecasts).}
+\item{signal}{A \code{double} vector with the investor's beliefs about
+expected returns (signals, forecasts) for each asset in \code{x}.}
 
-\item{lambda}{A \code{double} with the investor's risk-aversion preference.}
+\item{lambda}{A \code{double} with the investor's (absolute) risk-aversion
+coefficient, as in the paper's notation. For \code{method = "simple"}, the
+resulting portfolio's Sharpe ratio does not depend on \code{lambda}, so any
+positive value works when \code{normalize = TRUE}. For \code{method = "anchored"}
+with \code{endogenous = TRUE}, this argument is ignored because the
+risk-aversion coefficient is calibrated internally.}
 
 \item{method}{A \code{character}. One of: \code{"simple"} or \code{"anchored"}.}
 
-\item{w}{A \code{double} between \code{0} and \code{1}. The shrinkage level
-increases from 0 to 1.}
+\item{w}{A \code{double} between \code{0} and \code{1}. The EPO shrinkage
+parameter: \code{0} yields standard mean-variance optimization (no shrinkage)
+and \code{1} yields maximum shrinkage (the anchor portfolio, for
+\code{method = "anchored"}, or an unoptimized portfolio, for
+\code{method = "simple"}). In practice, \code{w} is often chosen empirically, e.g.
+by picking the value that would have maximized the realized Sharpe ratio
+using only past (out-of-sample) data.}
 
-\item{anchor}{A \code{double} vector with the anchor (benchmark) in which
-the allocation should not deviate too much from. Only used when \code{method = "anchored"}.}
+\item{anchor}{A \code{double} vector with the anchor (benchmark) portfolio
+that the allocation should not deviate too much from (e.g. a strategic
+asset allocation, a market-cap benchmark, or the 1/N portfolio). Only used
+when \code{method = "anchored"}.}
 
 \item{normalize}{A \code{boolean} indicating whether the allocation should be
 normalized to sum \code{1} (full-investment constraint). The default is \code{normalize = TRUE}.}
 
-\item{endogenous}{A \code{boolean} indicating whether the risk-aversion parameter
-should be considered endogenous (only used when \code{method = "anchored"}).
-The default is \code{endogenous = TRUE}.}
+\item{endogenous}{A \code{boolean} indicating whether the risk-aversion
+parameter should be calibrated endogenously from the \code{anchor} and
+\code{signal} (paper's footnote 13), rather than taken from \code{lambda}. Only used
+when \code{method = "anchored"}. The default is \code{endogenous = TRUE}.}
 }
 \value{
-The optimal allocation vector.
+A numeric vector with the optimal portfolio weights, one per
+column of \code{x}.
 }
 \description{
-Computes the optimal portfolio allocation using the EPO method.
+Computes the optimal portfolio allocation using the Enhanced Portfolio
+Optimization (EPO) method of Pedersen, Babu, and Levine (2021).
+}
+\details{
+Standard mean-variance optimization (MVO) is highly sensitive to
+estimation error in the correlation matrix and in expected returns. This
+error is concentrated in the least important principal components of the
+correlation matrix (the "problem portfolios"), whose risk tends to be
+underestimated and whose expected return tends to be overestimated. EPO
+fixes this by shrinking the off-diagonal correlations toward zero by a
+factor \code{w} before running MVO, which increases the estimated volatility
+(and lowers the implied Sharpe ratio) of exactly the problem portfolios.
+
+Two flavors of EPO are implemented, both governed by a single shrinkage
+parameter, \code{w}, between \code{0} (no shrinkage, i.e. standard MVO) and \code{1}
+(maximum shrinkage):
+
+\itemize{
+\item \code{method = "simple"} implements the "Simple EPO" (paper's equation 16).
+The allocation is given by \eqn{x = \frac{1}{\lambda} \Sigma_w^{-1} s},
+where \eqn{\Sigma_w} is the variance-covariance matrix rebuilt from the
+shrunk correlation matrix \eqn{\Omega_w = (1 - w) \Omega + w I}. At
+\code{w = 1} all correlations are set to zero, which is equivalent (up to scaling)
+to not optimizing at all.
+\item \code{method = "anchored"} implements the "Anchored EPO" (paper's equation 17),
+which pulls the solution toward a reference/benchmark portfolio, the \code{anchor}.
+At \code{w = 0} the solution is standard MVO; at \code{w = 1} the solution collapses
+onto the \code{anchor}; values in between produce Black-Litterman-style portfolios
+in which \code{w} controls the confidence placed in the anchor relative to the
+\code{signal}. Unlike Black-Litterman, the anchor need not be the market portfolio.
+}
 }
 \examples{
 x <- diff(log(EuStockMarkets)) # stock returns
@@ -123,4 +168,9 @@ epo(x = x, signal = s, lambda = 10, method = "anchored", w = 1.0, anchor = bench
 
 # Somewhere between the two worlds
 epo(x = x, signal = s, lambda = 10, method = "anchored", w = 0.5, anchor = benchmark)
+}
+\references{
+Pedersen, L. H., Babu, A., and Levine, A. (2021). Enhanced Portfolio
+Optimization. \emph{Financial Analysts Journal}, 77(2), 124-151.
+\doi{10.1080/0015198X.2020.1854543}
 }

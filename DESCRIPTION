@@ -8,21 +8,24 @@ Authors@R:
            role = c("aut", "cre", "cph"),
            email = "bernardo_cse@hotmail.com")
 Maintainer: Bernardo Reckziegel <bernardo_cse@hotmail.com>
-Description: Implements the Enhanced Portfolio Optimization (EPO) method as 
-    described in Pedersen, Babu and Levine (2021)
-    <doi:10.2139/ssrn.3530390>.
+Description: Implements the Enhanced Portfolio Optimization (EPO) method of
+    Pedersen, Babu and Levine (2021) <doi:10.1080/0015198X.2020.1854543>.
+    EPO stabilizes mean-variance optimization by shrinking correlations
+    toward zero, which addresses estimation error in both the risk model
+    and expected returns. Both the "Simple EPO" and the "Anchored EPO" (an
+    anchor/benchmark-aware, Black-Litterman-like extension) are provided.
 License: MIT + file LICENSE
 URL: https://github.com/Reckziegel/epo, https://reckziegel.github.io/epo/
 BugReports: https://github.com/Reckziegel/epo/issues
 Encoding: UTF-8
 LazyData: true
-RoxygenNote: 7.2.3
 Imports: 
     assertthat (>= 0.2.1),
-    dplyr (>= 1.1.2),
-    rlang (>= 1.1.1),
-    xts (>= 0.13.1)
+    dplyr (>= 1.2.1),
+    rlang (>= 1.3.0)
 Roxygen: list(markdown = TRUE)
 Suggests: 
-    testthat (>= 3.0.0)
+    testthat (>= 3.3.2),
+    xts (>= 0.14.2)
 Config/testthat/edition: 3
+Config/roxygen2/version: 8.0.0
